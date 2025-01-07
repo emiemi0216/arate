@@ -2,11 +2,33 @@
 <html lang="ja">
   　<head>
     　　<meta charset="utf-8">
-    　　<title>Hello</title>
+    　　<title>通知</title>
   　</head>
   　<body>
 　　　<script>
-　　　　　alert('Hello!samurai!');
+　　　　　alert('通知');
+     function notifyMe() {
+  if (!("Notification" in window)) {
+    alert("このブラウザーはデスクトップ通知には対応していません。");
+  } else if (Notification.permission === "granted") {
+    // 通知権限が既に付与されているかどうかを調べる。
+    // その場合は、通知を作成する。
+    const notification = new Notification("こんにちは！");
+    // …
+  } else if (Notification.permission !== "denied") {
+    // ユーザーにその権限を要求する必要がある
+    Notification.requestPermission().then((permission) => {
+      // ユーザーが受け入れたら、通知を作成する。
+      if (permission === "granted") {
+        const notification = new Notification("こんにちは！");
+        // …
+      }
+    });
+  }
+
+  // 最後に、ユーザーが通知を拒否している場合は、これ以上
+  // ユーザーに迷惑をかける必要はありません。
+}
 　　　</script>
   　</body>
 </html>
